@@ -25,17 +25,21 @@ temp = zeros(regimes,'uint64');
        for regime_t = 1: regimes
            for regime_t2 = 1: regimes
                epsilon(t, regime_t,...
-                          regimes_t2) = alpha(t,regime_t)+ ...
-                                        trans_prob(regime_t, regime_t2)+ ...
+                          regimes_t2) = alpha(t,regime_t)+ ... 
+                                        trans_prob(regime_t2, regime_t)+ ...
                                         cond_density(t,regime_t2)+ ...
                                         beta(t+1,regimes_t2);
-                                       
+                                       % note that transition prob matrix
+                                       % notation represent the transpose
+                                       % of matrix notation that is why we
+                                       % have trans_prob(regime_t2, regime_t)
            end
-           epsilon(t,regime_t,:) = ...
-                                    epsilon(t,regime_t,:) - ...
-                                    logsumexp(epsilon(t,regime_t,:));
+
        end 
        
+       % normalizing over both regimes 
+       tmp = reshape(epsilon(t,:,:),[],regimes*regimes); 
+       epsilon(t,:,:) = epsilon(t,:,:) -  logsumexp(tmp);
     end
    
 end

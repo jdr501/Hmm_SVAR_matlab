@@ -1,6 +1,7 @@
-function [log_likelihoods, alpha] = forward(cond_density,... 
+function [log_likelihood, alpha] = forward(cond_density,... 
                                             trans_prob, ...
                                             start_prob)
+                             
 %Farward Algorithm to estimate joint prob. of st,observed  
 %   Note that transition prob. notation is different from matrix notation: 
 %   In P_ij i is initial state j is proceeding state 
@@ -18,7 +19,7 @@ obs = shp_dens(1);
 regimes = shp_dens(2);
 
 alpha = zeros(shp_dens, 'uint64'); % this is joint porb  I.e. P(st,observed 1:t)
-log_likelihoods = zeros(obs,'uint64'); % marginalized over st I.e.P(observed 1:t)
+
 
     for t = 1:obs
        for regime = 1:regimes
@@ -28,15 +29,16 @@ log_likelihoods = zeros(obs,'uint64'); % marginalized over st I.e.P(observed 1:t
           % transitioning to state 1 from all other states 
           alpha(t, regime) = logsumexp( start_prob + ...
                                        trans_prob(regime,:) + ... 
-                                       cond_density ) ;
+                                       cond_density(t, regime) ) ;
         else
           alpha(t, regime) = logsumexp( alpha(regime,t-1) + ...
                                        trans_prob(regime,:) + ... 
-                                       cond_density ) ;
+                                       cond_density(t, regime)) ;
         end 
        end
-       log_likelihoods(t) = logsumexp(alpha(t,:)); 
+       
     end 
+    log_likelihood = logsumexp(alpha(obs,:)); 
 end
 
 
