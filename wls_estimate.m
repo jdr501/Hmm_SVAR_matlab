@@ -17,7 +17,7 @@ r_sum_numo = 0;
         r_sum_dnom = r_sum_dnom +... 
                      kron(t_sum_dnom, pinv(sigma(:,:,regime))); 
     end 
-    dnom = pinv(r_sum_dnom);
+  
     for t = 1:obs 
         for regime = 1:regimes
            r_sum_numo = r_sum_numo +...
@@ -28,6 +28,6 @@ r_sum_numo = 0;
         t_sum_numo = t_sum_numo + r_sum_numo * delta_yt(t,:).T;
     end
     
-    wls_param = dnom * t_sum_numo; % returns column vector wls_params 
+    wls_param = linsolve(denom,t_sum_numo); % returns column vector wls_params 
 end
 

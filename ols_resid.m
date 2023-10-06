@@ -24,7 +24,7 @@ ols_resid = zeros(shape);
     
     for t = 1:obs
         temp_zt = reshape(zt(t,:),len_zt,1);
-        temp_d_yt = reshape(delta_yt(1,:),k_vars,1);
+        temp_d_yt = reshape(delta_yt(t,:),k_vars,1);
         temp_res = (temp_d_yt - ...
                          kron(temp_zt.', eye(k_vars))* ...
                          ols_param);
