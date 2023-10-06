@@ -18,20 +18,22 @@ shp_dens = size(cond_density);
 obs = shp_dens(1);
 regimes = shp_dens(2);
 
-alpha = zeros(shp_dens, 'uint64'); % this is joint porb  I.e. P(st,observed 1:t)
+alpha = zeros(shp_dens); % this is joint porb  I.e. P(st,observed 1:t)
 
 
     for t = 1:obs
+
        for regime = 1:regimes
         if t== 1
           % note that trans_prob(regime,:) this is transitioning to the
           % regime from all other states ex: first raw represnt
           % transitioning to state 1 from all other states 
-          alpha(t, regime) = logsumexp( start_prob + ...
+                                   
+          alpha(t, regime) = logsumexp( start_prob(regime) + ...
                                        trans_prob(regime,:) + ... 
                                        cond_density(t, regime) ) ;
         else
-          alpha(t, regime) = logsumexp( alpha(regime,t-1) + ...
+          alpha(t, regime) = logsumexp( alpha(t-1,regime) + ...
                                        trans_prob(regime,:) + ... 
                                        cond_density(t, regime)) ;
         end 

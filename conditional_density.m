@@ -15,11 +15,11 @@ obs = shp_obs(1);
 k_var = shp_obs(2);
 shp_sigma = size(sigma_regimes);
 k_regimes = shp_sigma(3);
-density_array = zeros(obs,k_regimes, 'uint64');
-mean_zero = zeros(1,k_var, 'uint64');
+density_array = zeros(obs,k_regimes);
+mean_zero = zeros(k_var,1);
     for t = 1:obs
         for regime = 1: k_regimes
-            density_array(t,regime)= mvnpdf(residuals_matrix(t,:),...
+            density_array(t,regime)= mvnpdf(residuals_matrix(t,:).',...
                                             mean_zero, ...
                                             sigma_regimes(:,:,regime));
         end 

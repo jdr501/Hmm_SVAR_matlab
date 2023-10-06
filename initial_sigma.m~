@@ -1,4 +1,4 @@
-function [sigma,x0] = initial_sigma(residuals,regimes)
+function [sigma] = initial_sigma(residuals,regimes)
 %INITIAL_SIGMA Summary of this function goes here
 %   Detailed explanation goes here
 shape = size(residuals);
@@ -17,7 +17,7 @@ sum = 0 ;
         sigma(:,:, regime) = b_mat * b_mat.';
     end
  
-    x0 = ones(1, k_vars*k_vars+k_vars*(regimes-1));
-    x0(1,1:k_vars*k_vars)= reshape(b_mat,[], k_vars*k_vars);
+    x0 = ones(1, k_vars*k_vars+k_vars*(regimes-1))
+    x0(1,1:k_vars*k_vars)= reshape(b_mat,[], k_vars*k_vars)
 end
 

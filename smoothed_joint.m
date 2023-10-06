@@ -7,9 +7,9 @@ function [gamma,epsilon] = smoothed_joint(cond_density, ...
 shp_alppha = size(alpha);
 obs = shp_alppha(1);
 regimes = shp_alppha(2);
-gamma = zeros(shp_alppha,'uint64');
-epsilon = zeros(obs, regimes,regimes,'uint64');
-temp = zeros(regimes,'uint64');
+gamma = zeros(shp_alppha);
+epsilon = zeros(obs, regimes,regimes);
+temp = zeros(regimes,1);
     
     % smoothed prob.
     for t = 1:obs
@@ -25,10 +25,10 @@ temp = zeros(regimes,'uint64');
        for regime_t = 1: regimes
            for regime_t2 = 1: regimes
                epsilon(t, regime_t,...
-                          regimes_t2) = alpha(t,regime_t)+ ... 
+                          regime_t2) = alpha(t,regime_t)+ ... 
                                         trans_prob(regime_t2, regime_t)+ ...
                                         cond_density(t,regime_t2)+ ...
-                                        beta(t+1,regimes_t2);
+                                        beta(t+1,regime_t2);
                                        % note that transition prob matrix
                                        % notation represent the transpose
                                        % of matrix notation that is why we

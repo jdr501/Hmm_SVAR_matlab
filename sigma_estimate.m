@@ -4,7 +4,7 @@ function [sigma,...
 %SIGMA_ESTIMATE Summary of this function goes here
 %   Detailed explanation goes here
 K_var = size(residuals_old,2);
-len_x = size(x);
+len_x = size(x0);
 lb = zeros(len_x);
 opt_fun = @(x) num_opt(x,smth_prob, residuals_old);
 for i = 1:len_x

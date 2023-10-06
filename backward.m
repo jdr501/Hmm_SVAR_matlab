@@ -4,7 +4,7 @@ function [beta] =backward(cond_density,trans_prob)
 shp_dens = size(cond_density);
 obs = shp_dens(1);
 regimes = shp_dens(2);
-beta =zeros(shp_dens,'uint64');
+beta =zeros(shp_dens);
 
 for t = obs:1
     for regime = 1:regimes 
