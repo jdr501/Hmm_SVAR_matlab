@@ -9,15 +9,11 @@ lamda = zeros(K_var,K_var,regimes);
     for regime = 1:regimes
         
         if regime == 1
-            size(lamda(:,:,regime))
-            size(eye(K_var))
             lamda(:,:,regime) = eye(K_var);
        
         else
             
             ending = starting + K_var-1;
-
-
 
             lamda(:,:,regime) =  eye(K_var).*...
                                 reshape(x(starting:ending),K_var,1 )   ;

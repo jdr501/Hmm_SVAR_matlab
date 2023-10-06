@@ -12,7 +12,7 @@ trans_prob = tans_prob_estimate(smth_prob,smth_joint_prob); % done
 [sigma,...
  B_matrix,...
  lamdas] =  sigma_estimate(residuals_old,smth_prob,x0);% done
-params = wls_estimate(sigma_regimes,smth_prob,delta_yt,zt);
+params = wls_estimate(sigma,smth_prob,delta_yt,zt);
 residuals = res_estimate(params,delta_yt,zt);
 %print not completed
 end

@@ -6,6 +6,7 @@ function [sigma,...
 K_var = size(residuals_old,2);
 len_x = size(x0);
 lb = zeros(len_x);
+regimes = size(smth_prob,2);
 opt_fun = @(x) num_opt(x,smth_prob, residuals_old);
 for i = 1:len_x
     if i <= K_var*K_var
@@ -14,9 +15,9 @@ for i = 1:len_x
         lb(i) = 0.001;
     end
 end 
-result = fmincon(opt_fun,x0, [],[],[],[],lb,[],[]);
+ result= fmincon(opt_fun,x0, [],[],[],[],lb,[],[]);
 [sigma,...
  B_matrix,...
- lamdas] = result(1);
+ lamdas] =  reconstitute_sigma(result,K_var,regimes);
 end
 

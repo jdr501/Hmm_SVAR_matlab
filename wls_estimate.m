@@ -10,10 +10,12 @@ t_sum_numo = 0;
 r_sum_numo = 0;
 
     for regime = 1:regimes 
+    
         for t = 1:obs
             t_sum_dnom = t_sum_dnom + ...
-                         smth_prob(t,regime)* zt(t,:).T * zt(t,:);
+                         smth_prob(t,regime)* zt(t,:).' * zt(t,:);
         end
+        sigma(:,:,regime)
         r_sum_dnom = r_sum_dnom +... 
                      kron(t_sum_dnom, pinv(sigma(:,:,regime))); 
     end 
@@ -22,12 +24,13 @@ r_sum_numo = 0;
         for regime = 1:regimes
            r_sum_numo = r_sum_numo +...
                         kron(...
-                             smth_prob(t,regime)* zt(t,:).T,...
+                             smth_prob(t,regime)* zt(t,:).',...
                              pinv(sigma(:,:,regime)));
         end
-        t_sum_numo = t_sum_numo + r_sum_numo * delta_yt(t,:).T;
+        t_sum_numo = t_sum_numo + r_sum_numo * delta_yt(t,:).';
     end
     
-    wls_param = linsolve(denom,t_sum_numo); % returns column vector wls_params 
+    wls_param = linsolve(r_sum_dnom,t_sum_numo); % returns column vector wls_params 
+    wls_param
 end
 

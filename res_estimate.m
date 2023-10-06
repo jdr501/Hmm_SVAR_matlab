@@ -7,11 +7,11 @@ function [residuals] = res_estimate(wls_param,delta_yt, zt)
        disp('row vector of wls_param provided, reshaped to a column vector')      
     end 
 [obs, K_var] = size(delta_yt);
-residuals = zeros(size(delta_yt), 'unit64');
+residuals = zeros(size(delta_yt));
     for t = 1: obs
-        temp = delta_yt(t,:).T - ...
+        temp = delta_yt(t,:).' - ...
                          kron(zt(t,:), eye(K_var)) * wls_param ;
-        residuals(t,:) = temp.T;
+        residuals(t,:) = temp.';
     end 
 
 
