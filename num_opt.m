@@ -5,9 +5,9 @@ shp_resid = size(resid);
 obs = shp_resid(1);
 K_var = shp_resid(2);
 regimes = size(smth_prob,2);
-wght_dens = zeros(obs,regimes, 'unit64');
-reconstituted_param = reconstitute_sigma(x,K_var,regimes);
-sigma_regimes = reconstituted_param(1); % this takes the sigma arrray 
+wght_dens = zeros(obs,regimes);
+[sigma_regimes, B_matrix,lamda] = reconstitute_sigma(x,K_var,regimes);
+mean_zero = zeros(size(resid(1,:)));
 
     for regime = 1: regimes
         for t = 1:obs
