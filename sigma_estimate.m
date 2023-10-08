@@ -8,14 +8,21 @@ len_x = size(x0);
 lb = zeros(len_x);
 regimes = size(smth_prob,2);
 opt_fun = @(x) num_opt(x,smth_prob, residuals_old);
-for i = 1:len_x
+for i = 1:len_x(2)
     if i <= K_var*K_var
-        lb(i) = -Inf;
+        lb(1,i) = -Inf;
     else 
-        lb(i) = 0.001;
+        lb(1,i) = 0.001;
     end
 end 
- result= fmincon(opt_fun,x0, [],[],[],[],lb,[],[]);
+
+options = optimoptions('fmincon',...
+    'Algorithm','sqp','Display','iter','ConstraintTolerance',1e-12);
+
+options.MaxFunctionEvaluations = 15000;
+options.MaxIterations = 15000;
+
+ result= fmincon(opt_fun,x0, [],[],[],[],lb,[],[], options);
 [sigma,...
  B_matrix,...
  lamdas] =  reconstitute_sigma(result,K_var,regimes);
