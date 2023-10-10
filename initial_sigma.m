@@ -11,7 +11,8 @@ sum = 0 ;
         sum = tem_resid*tem_resid.';
     end 
     b_mat = pinv(sum/obs);
-    b_mat = b_mat + rand(k_vars);
+    b_mat = b_mat + 0.01*randn(k_vars,k_vars);
+    
     
     for regime = 1: regimes 
         sigma(:,:, regime) = b_mat * b_mat.';
