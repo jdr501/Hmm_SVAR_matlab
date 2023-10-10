@@ -1,6 +1,6 @@
 function [sigma,...
           B_matrix,...
-          lamdas] =  sigma_estimate(residuals_old,smth_prob,x0)
+          lamdas, result] =  sigma_estimate(residuals_old,smth_prob,x0)
 %SIGMA_ESTIMATE Summary of this function goes here
 %   Detailed explanation goes here
 K_var = size(residuals_old,2);
@@ -17,12 +17,12 @@ for i = 1:len_x(2)
 end 
 
 options = optimoptions('fmincon',...
-    'Algorithm','sqp','Display','iter','ConstraintTolerance',1e-12);
+    'Algorithm','interior-point','Display','final','ConstraintTolerance',1e-12);
 
 options.MaxFunctionEvaluations = 15000;
 options.MaxIterations = 15000;
 
- result= fmincon(opt_fun,x0, [],[],[],[],lb,[],[], options);
+ result= fmincon(opt_fun,x0, [],[],[],[],lb,[],[], options)
 [sigma,...
  B_matrix,...
  lamdas] =  reconstitute_sigma(result,K_var,regimes);

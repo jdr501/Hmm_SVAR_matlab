@@ -3,6 +3,7 @@ Tbl = readtable('slowdown.csv');
 data_mat = [Tbl.OIL, Tbl.YUS*100, Tbl.CPUS*100, Tbl.SUS];
 data_mat = data_mat(41:end,:);
 
+%em_algorith(data_mat, 3,[0,0,0,1], 2,3, 1e-6)
 %initialize 
 [delta_yt,zt,resid,start_prob,trans_prob, sigma,x0] = initialize(data_mat, 3,[0,0,0,1], 2);
 
@@ -12,7 +13,8 @@ data_mat = data_mat(41:end,:);
                                                             trans_prob,...
                                                             start_prob);
                                                         
- %mstep                                                        
+ %mstep    
+ sigma_old = sigma;
  [trans_prob,...
           sigma,...
           B_matrix,...
@@ -21,3 +23,8 @@ data_mat = data_mat(41:end,:);
                                       smth_joint_prob,...
                                       resid,...
                                       delta_yt,zt,x0);
+
+
+
+
+
