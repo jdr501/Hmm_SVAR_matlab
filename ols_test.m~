@@ -1,6 +1,5 @@
-x =[1 2 3 4 5 6 7 8 9 ]
-K_var =2
-B_matrix = reshape(x(1:K_var*K_var),K_var, K_var)
-regimes=2
-x0 = zeros(K_var*K_var+K_var*(regimes-1))
-reshape(B_matrix,[], K_var*K_var)
+
+sigma1= sigma(:,:,1);
+k=4;
+temp = -0.
+(2*pi)^(-k/2)* det(sigma1)^(-0.5)*exp()

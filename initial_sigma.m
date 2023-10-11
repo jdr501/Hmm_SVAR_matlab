@@ -12,7 +12,7 @@ sum = 0 ;
     end 
     %b_mat = pinv(sum/obs);
     %b_mat = b_mat ;%+ randn(k_vars,k_vars);
-    bmat2 = cov(residuals)%+ 0.001* randn(k_vars,k_vars);
+    bmat2 = cov(residuals)+ 0.01* randn(k_vars,k_vars);
     b_mat = bmat2;
 
     for regime = 1: regimes 

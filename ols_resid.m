@@ -9,7 +9,7 @@ denom = 0;
 numo=0;
 ols_resid = zeros(shape);
 
-
+global ols_param
 
     for t = 1:obs
         temp_zt = reshape(zt(t,:),len_zt,1);
@@ -20,7 +20,7 @@ ols_resid = zeros(shape);
     
     ols_param = linsolve(denom,numo);
   
-    display(ols_param)
+    
     
     for t = 1:obs
         temp_zt = reshape(zt(t,:),len_zt,1);

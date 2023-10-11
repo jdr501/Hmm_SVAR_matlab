@@ -17,6 +17,10 @@ shp_sigma = size(sigma_regimes);
 k_regimes = shp_sigma(3);
 density_array = zeros(obs,k_regimes);
 mean_zero = zeros(k_var,1);
+for k = 1: k_var
+mean_zero(k,1) = mean(residuals_matrix(:,k));
+mean_zero
+end 
     for t = 1:obs
         for regime = 1: k_regimes
             density_array(t,regime)= mvnpdf(residuals_matrix(t,:).',...
