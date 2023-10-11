@@ -1,7 +1,7 @@
 format long
-%clear
-%clc
-global ols_param
+clear
+clc
+global ols_param ols_b_mat
 Tbl = readtable('slowdown.csv');
 data_mat = [ Tbl.CPUS*100,Tbl.OIL, Tbl.YUS*100, Tbl.SUS];
 data_mat = data_mat(41:end,:);
@@ -15,8 +15,13 @@ data_mat = data_mat(41:end,:);
                                                             sigma,...
                                                             trans_prob,...
                                                             start_prob);
-                                                        
+  level_smth_prob = exp(smth_prob);                                                    
  %mstep    
+ len = size(x0,2);
+ for i = 1:len
+   
+   x0(1,i)= x0(1,i)+0.01*randn(1,1);  
+ end
  sigma_old = sigma;
  [trans_prob,...
           sigma,...

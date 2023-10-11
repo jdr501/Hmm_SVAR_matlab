@@ -17,12 +17,13 @@ for i = 1:len_x(2)
 end 
 
 options = optimoptions('fmincon',...
-    'Algorithm','interior-point','Display','final','ConstraintTolerance',1e-12);
+    'Algorithm','sqp','Display','final','ConstraintTolerance',1e-6, ...
+   'StepTolerance',1.0000e-6);
 
-options.MaxFunctionEvaluations = 15000;
+options.MaxFunctionEvaluations = 50000;
 options.MaxIterations = 15000;
 
- result= fmincon(opt_fun,x0, [],[],[],[],lb,[],[], options)
+ result = fmincon(opt_fun,x0, [],[],[],[],lb,[],[], options)
 [sigma,...
  B_matrix,...
  lamdas] =  reconstitute_sigma(result,K_var,regimes);

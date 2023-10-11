@@ -1,4 +1,5 @@
 function [sigma,x0] = initial_sigma(residuals,regimes)
+global ols_b_mat
 %INITIAL_SIGMA Summary of this function goes here
 %   Detailed explanation goes here
 shape = size(residuals);
@@ -14,7 +15,7 @@ sum = 0 ;
     %b_mat = b_mat ;%+ randn(k_vars,k_vars);
     bmat2 = cov(residuals)+ 0.01* randn(k_vars,k_vars);
     b_mat = bmat2;
-
+    ols_b_mat = b_mat;
     for regime = 1: regimes 
         sigma(:,:, regime) = b_mat * b_mat.';
     end
