@@ -10,6 +10,14 @@ data_mat = data_mat(41:end,:);
 %initialize 
 [delta_yt,zt,resid,start_prob,trans_prob, sigma,x0] = initialize(data_mat, 3,[0,0,0,1], 2);
 
+
+
+
+cond_dens = conditional_density(resid,sigma);
+[marginal, predicted,ll]= hamilton_filter(cond_dens,trans_prob,log(ones(1,2)/2));
+
+[smth_prob,smth_jnt_prob] = Kim_smoother(marginal, predicted, trans_prob)
+
 %estep 
 [smth_prob,smth_joint_prob,loglikelihood, start_prob] = e_step(resid,...
                                                             sigma,...

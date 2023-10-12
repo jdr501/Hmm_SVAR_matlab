@@ -11,7 +11,7 @@ ll =0;
 t_sum = 0 ;
   for regime = 1:regimes
       for t = 1:obs
-        u = delta_yt(t,:).' - kron(zt(t,:), eye(k_vars))*params 
+        u = delta_yt(t,:).' - kron(zt(t,:), eye(k_vars))*params ;
         t_sum = t_sum -0.5*...
                           log(smth_prob(t,regime))*...
                           u.'* pinv(sigma(:,:,regime))* u ; 

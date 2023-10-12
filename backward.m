@@ -6,7 +6,7 @@ obs = shp_dens(1);
 regimes = shp_dens(2);
 beta =zeros(shp_dens);
 
-for t = obs:1
+for t = obs:-1:1
     for regime = 1:regimes 
         if t == regime
            beta(t,regime) = 1;
