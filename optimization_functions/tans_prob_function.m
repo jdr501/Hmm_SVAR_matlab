@@ -1,20 +1,30 @@
 function [trans_prob] = tans_prob_function(smth_prob,smth_joint_prob)
 %TANS_PROB_ESTIMATE Summary of this function goes here
 %   Detailed explanation goes here
-joint_len = size(smth_joint_prob,2);
-joint_sum = zeros(joint_len,1);
-regimes = size(smth_prob,2);
-smth_sum = zeros(regimes,1);
-for i = 1:joint_len 
-    joint_sum(i) = logsumexp(smth_joint_prob(:,i));
-end 
+% note that the smooth joint prob we are getting are the transposed ones
 
-for regime = 1:regimes
-    smth_sum(regime,1)= logsumexp(smth_prob(:,regime));
+obs = size(smth_prob,1);
+regimes = size(smth_prob,2);
+smth_sum = zeros(1, regimes);
+joint_sum_T = zeros(regimes, regimes); 
+
+for regime_j = 1: regimes
+    for regime_k = 1: regimes 
+       joint_sum_T(regime_j,regime_k) = logsumexp(...
+           reshape(smth_joint_prob(regime_j,regime_k,:),obs,[]));
+    end
 end
-denom = kron(ones(regimes,1),smth_sum);
-vec_p =  joint_sum - denom ;
-trans_p = reshape(vec_p,regimes,regimes);
-trans_prob = trans_p.';
+ 
+for regime = 1:regimes
+    smth_sum(1,regime)= logsumexp(smth_prob(:,regime));
+end
+
+for regime_j = 1: regimes
+    for regime_k = 1: regimes 
+       joint_sum_T(regime_j,regime_k) = joint_sum_T(regime_j,regime_k) - smth_sum(1,regime_j);
+    end
+end 
+trans_prob = joint_sum_T.';
+
 end
 
