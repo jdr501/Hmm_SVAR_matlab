@@ -7,3 +7,5 @@ resid = ols_resid(delta_yt,zt);
 start_prob = log(ones(1,regimes)/regimes); % done
 trans_prob = log(ones(regimes,regimes)/regimes); % done 
 
+
+end 

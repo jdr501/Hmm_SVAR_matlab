@@ -8,11 +8,11 @@ beta =zeros(shp_dens);
 
 for t = obs:-1:1
     for regime = 1:regimes 
-        if t == regime
-           beta(t,regime) = 1;
+        if t == obs
+           beta(t,regime) = 0;
         else
            beta(t,regime) = logsumexp(beta(t+1,:)+ ...
-                                      trans_prob(:,regime)+...
+                                      trans_prob(:,regime).'+...
                                       cond_density(t,:));
         end 
     end 

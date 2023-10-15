@@ -1,12 +1,16 @@
 function [ll] = num_opt(x,smth_prob, resid)
 %Function for numerical optimization
 %   Detailed explanation goes here
+x
 shp_resid = size(resid);
 obs = shp_resid(1);
 K_var = shp_resid(2);
 regimes = size(smth_prob,2);
 wght_dens = zeros(obs,regimes);
 [sigma_regimes, B_matrix,lamda] = reconstitute_sigma(x,K_var,regimes);
+for regime = 1:regimes 
+sigma_regimes(:,:,regime) = (sigma_regimes(:,:,regime) * sigma_regimes(:,:,regime).')/2;
+end 
 mean_zero = zeros(size(resid(1,:)));
 
     for regime = 1: regimes

@@ -24,7 +24,9 @@ for regime_j = 1: regimes
        joint_sum_T(regime_j,regime_k) = joint_sum_T(regime_j,regime_k) - smth_sum(1,regime_j);
     end
 end 
+% rescaling to get rid of numerical error 
 trans_prob = joint_sum_T.';
-
+trans_prob = exp(trans_prob);
+trans_prob = log(trans_prob./ sum(trans_prob,2));
 end
 

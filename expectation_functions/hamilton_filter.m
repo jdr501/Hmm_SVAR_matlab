@@ -1,4 +1,4 @@
-function [marginal_prob,predicted_prob, likelihood] = hamilton_filter(condi_density,...
+function [flt_prob,predicted_prob, likelihood] = hamilton_filter(condi_density,...
                                             transition_prob,...
                                             initial_prob)
 %HAMILTON Summary of this function goes here
@@ -7,26 +7,24 @@ function [marginal_prob,predicted_prob, likelihood] = hamilton_filter(condi_dens
 % However epsilon_t|t-1 , index of the array corresponds to t   
 regimes = size(condi_density, 2);
 obs = size(condi_density, 1);
-marginal_prob= zeros(obs+1,regimes);
+flt_prob= zeros(obs+1,regimes);
 predicted_prob = zeros(obs,regimes); % epsilon_t|t-1 , index of the array corresponds to t 
 ll = zeros(obs,1) ;
 
     for t = 0:obs
+        index = t+1; % index of flt probe when t = 0 is 1 
         if t==0
-            marginal_prob(t+1,:)=  initial_prob; % t=0 -> index = t+1 
+            flt_prob(index,:)=  initial_prob; % t=0 -> index = t+1 
         else 
-            marginal_prob(t+1,:) = condi_density(t,:) + predicted_prob(t,:);
-            ll(t,1)=  logsumexp(marginal_prob(t+1,:));
-            marginal_prob(t+1,:) = marginal_prob(t+1,:)- ll(t,1);
-        
-        
             for regime = 1:regimes
-                predicted_prob(t,regime)= logsumexp( ...
+                    predicted_prob(t,regime)= logsumexp( ...
                                                 transition_prob(regime,:)+...
-                                                  marginal_prob(t,:)  );
+                                                flt_prob(index-1,:)  );
             end
-        end
-     
+            flt_prob(index,:) = condi_density(t,:) + predicted_prob(t,:);
+            ll(t,1)=  logsumexp(flt_prob(index,:));
+            flt_prob(index,:) = flt_prob(index,:)- ll(t,1);
+        end 
     end 
 
 likelihood = sum(ll);
