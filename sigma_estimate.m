@@ -1,32 +1,40 @@
 function [sigma,...
           B_matrix,...
-          lamdas, result] =  sigma_estimate(residuals_old,smth_prob,x0)
+          lamdas, x0_new] =  sigma_estimate(resid,smth_prob,x0)
 %SIGMA_ESTIMATE Summary of this function goes here
 %   Detailed explanation goes here
-K_var = size(residuals_old,2);
-len_x = size(x0);
+x02 = x0.';
+K_var = size(resid,2);
+len_x = size(x02);
 lb = zeros(len_x);
-ub = ones(len_x)*10000;
+ub = ones(len_x)*inf;
 regimes = size(smth_prob,2);
-opt_fun = @(x) num_opt(x,smth_prob, residuals_old);
-for i = 1:len_x(2)
+
+opt_fun = @(x) num_opt_w_grad(x,smth_prob, resid, 1e-6);
+
+for i = 1:len_x(1)
     if i <= K_var*K_var
-        lb(1,i) = -100;
+        lb(i,1) = -inf;
     else 
-        lb(1,i) = 0.01;
+        lb(i,1) = 0.01;
     end
 end 
-result = GODLIKE(opt_fun, lb, ub)
-%{
-options = optimoptions('fmincon',...
-    'Algorithm','sqp','Display','final','ConstraintTolerance',1e-6, ...
-   'StepTolerance',1.0000e-6);
+opts    = struct( 'x0', x02 );
+opts.printEvery     = 20;
+opts.m  = 5;
 
-options.MaxFunctionEvaluations = 50000;
-options.MaxIterations = 15000;
 
- result = fmincon(opt_fun,x0, [],[],[],[],lb,[],[], options) 
- %}
+% Ask for very high accuracy
+opts.pgtol      = 1e-13;
+opts.factr      = 1e-6;
+opts.m =20;
+opts.maxIts = 5000;
+% The {f,g} is another way to call it
+[result,f,info] = lbfgsb( opt_fun , lb, ub, opts );
+display(info)
+
+x0_new = result.';
+
 [sigma,...
  B_matrix,...
  lamdas] =  reconstitute_sigma(result,K_var,regimes);
