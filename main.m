@@ -6,16 +6,13 @@ Tbl = readtable('slowdown.csv');
 data_mat = [ Tbl.CPUS*100,Tbl.OIL, Tbl.YUS*100, Tbl.SUS];
 data_mat = data_mat(41:end,:);
 
-%em_algorith(data_mat, 3,[0,0,0,1], 2,3, 1e-6)
-%initialize 
-[delta_yt,zt,resid,start_prob,trans_prob, sigma,x0] = initialize(data_mat, 3,[0,0,0,1], 2);
 
 [smth_prob,...
           loglikelihood,...
           sigma,...
           B_matrix,...
           lamdas,...
-          params,llf] = em_algorith(data_mat, 3,[0,0,0,1], 2,15,1e-15)
+          params,llf] = em_algorith(data_mat, 3,[0,0,0,1], 2,100,1e-3)
 
 
 %estep 

@@ -33,7 +33,7 @@ function [smth_prob,...
            llf = [llf,loglikelihood];
         
             if i >= 2
-                delta = 2*(llf(end) - llf(end-1))/ abs(llf(end) - llf(end-1));
+                delta =  abs(llf(end) - llf(end-1))
                 if delta<tolerance
                     break 
                 end

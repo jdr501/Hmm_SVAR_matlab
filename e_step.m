@@ -9,6 +9,7 @@ function [smth_prob,smth_joint_prob,loglikelihood, start_prob] = e_step(residual
 %   all estimated values are in log
 cond_density = conditional_density(residuals, sigma); % done 
 
+    
 % hamilton kim approach to smoothed probabilities 
 [marginal, ...
     predicted,...
@@ -27,4 +28,9 @@ beta = backward(cond_density,trans_prob);% done
                                              alpha,beta); % done 
 start_prob = smth_prob(1,:);
 %}
+
+if isinf(cond_density)
+disp('inf in density rerun the itteration')
+end
+
 end
