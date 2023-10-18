@@ -7,8 +7,6 @@ function [smth_prob,...
 %EM_ALGORITH Summary of this function goes here
 %   Detailed explanation goes here
 
-
-
 [delta_yt,zt,resid,start_prob,trans_prob, sigma,x0] = initialize(data_mat, lags,beta, regimes);
     llf = [];
     
@@ -30,10 +28,10 @@ function [smth_prob,...
                                       resid,...
                                       delta_yt,zt,x0);
 
-           llf = [llf,loglikelihood];
+           llf = [llf,loglikelihood]
         
             if i >= 2
-                delta =  abs(llf(end) - llf(end-1))
+                delta =  abs(llf(end) - llf(end-1))/ abs(llf(end-1))
                 if delta<tolerance
                     break 
                 end

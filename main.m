@@ -1,20 +1,20 @@
 format long
 clear
 clc
-global ols_param ols_b_mat
+global ols_param ols_b_mat llf
 Tbl = readtable('slowdown.csv');
 data_mat = [ Tbl.CPUS*100,Tbl.OIL, Tbl.YUS*100, Tbl.SUS];
 data_mat = data_mat(41:end,:);
-
-
+addpath(genpath('~/Hmm_SVAR_matlab'))
+addpath(genpath('~/L-BFGS-B-C/Matlab'))
 [smth_prob,...
           loglikelihood,...
           sigma,...
           B_matrix,...
           lamdas,...
-          params,llf] = em_algorith(data_mat, 3,[0,0,0,1], 2,100,1e-3)
+          params,llf] = em_algorith(data_mat, 3,[0,0,0,1], 2,100,1e-4)
 
-
+level = exp(smth_prob)
 %estep 
 [smth_prob,smth_joint_prob,loglikelihood, start_prob] = e_step(resid,...
                                                             sigma,...

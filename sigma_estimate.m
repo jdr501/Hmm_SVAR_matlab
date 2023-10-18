@@ -19,9 +19,24 @@ for i = 1:len_x(1)
         lb(i,1) = 0.01;
     end
 end 
+
+if isnan(opt_fun(x02)) 
+    disp('initial values not valid try different start values')
+    disp(smth_prob)
+    j =1 ;
+    while j <10 && isnan(opt_fun(x02))
+        x02 = x02+ eps*randn(size(x02));
+        j = j+1;
+    end
+    
+else
+    disp('valid initial values')
+end
+
 opts    = struct( 'x0', x02 );
 opts.printEvery     = 20;
 opts.m  = 5;
+
 
 
 % Ask for very high accuracy
