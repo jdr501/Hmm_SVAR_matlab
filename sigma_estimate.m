@@ -40,8 +40,8 @@ opts.m  = 5;
 
 
 % Ask for very high accuracy
-opts.pgtol      = 1e-13;
-opts.factr      = 1e-6;
+opts.pgtol      = 1e-24;
+opts.factr      = 1e-12;
 opts.m =20;
 opts.maxIts = 5000;
 % The {f,g} is another way to call it

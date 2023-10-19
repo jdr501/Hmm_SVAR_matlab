@@ -28,6 +28,7 @@ mean_zero = zeros(k_var,1);
                                             sigma_regimes(:,:,regime));
         end 
     end 
+
 density_array = log(density_array);
 end
 

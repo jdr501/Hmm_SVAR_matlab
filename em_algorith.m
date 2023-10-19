@@ -11,13 +11,24 @@ function [smth_prob,...
     llf = [];
     
     for i = 1: maxiter  
+        if i==1
+            intial_step = true ;
+        else 
+            intial_step = false;   
+        end 
+        
          [smth_prob,smth_joint_prob,loglikelihood, start_prob] = e_step(resid,...
                                                             sigma,...
                                                             trans_prob,...
-                                                            start_prob);
-                                                    
-          %mstep    
-
+                                                            start_prob, intial_step);
+                                                  
+          %mstep  
+          if i ==1
+              x0=  x0 + 0.1*x0.*(1+randn(size(x0)));
+          else 
+              x0 = x0 + 0.5*x0_old.*(1+randn(size(x0)));
+          end 
+          x0_old = x0;
  
           [trans_prob,...
           sigma,...
@@ -27,8 +38,13 @@ function [smth_prob,...
                                       smth_joint_prob,...
                                       resid,...
                                       delta_yt,zt,x0);
+                               
+                       
+           disp(trans_prob)                       
 
            llf = [llf,loglikelihood]
+           
+           
         
             if i >= 2
                 delta =  abs(llf(end) - llf(end-1))/ abs(llf(end-1))

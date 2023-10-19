@@ -28,6 +28,9 @@ for t = obs-1:-1:1
 end 
 
 
+
+
+
 % initial prob estimation 
     for regime_j = 1:regimes
         for regime_k = 1:regimes 
@@ -41,6 +44,17 @@ end
     for regime_j = 1:regimes 
         start_prob(1,regime_j)= logsumexp(jnt_prob_t0(regime_j,:,t));
     end 
+    
+    
+ for t = 1:size(smth_prob,1)
+        if sum(exp(smth_prob(t,:))) ==1
+            disp('incorrect smoothed prob. detected!')
+            smth_prob(t,:) = log(exp(smth_prob(t,:))/...
+                                        sum(exp(smth_prob(t,:))));
+        end 
+end    
+    
+    
 end
 
 

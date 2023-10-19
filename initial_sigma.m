@@ -52,10 +52,12 @@ sum = 0 ;
  
     x0 = ones(1, k_vars*k_vars+k_vars*(regimes-1));
     x0(1,1:k_vars*k_vars)= reshape(b_mat,[], k_vars*k_vars);
+    
+     x0(1,k_vars*k_vars+1:end) = [0.012,0.102,0.843,16.52];
    
     %x0(1,k_vars*k_vars+1 : end) = ini_lambda_guess;
     
-      
+     %{
     for regime = 1: regimes 
         if regime ==1
             b_mat = sqrtm(cov(residuals(1:20,:),1))+ eps* randn(k_vars,k_vars);
@@ -66,7 +68,7 @@ sum = 0 ;
         end 
     end
 
-    
+  
     
     
     lam = ((diag(sigma(:,:,1)))./(diag(sigma(:,:,2)))).';
@@ -75,6 +77,6 @@ sum = 0 ;
     %x0 = ones(1, k_vars*k_vars+k_vars*(regimes-1));
     x0= [reshape(b_mat,[], k_vars*k_vars),lam] ;
     
-
+    %}
 end
 

@@ -1,15 +1,17 @@
 function [smth_prob,smth_joint_prob,loglikelihood, start_prob] = e_step(residuals,...
                                                             sigma,...
                                                             trans_prob,...
-                                                            start_prob)
+                                                            start_prob,intial_step)
 %E_STEP For given parameters this function calculates:
 %   loglikelihood
 %   smoothed prob
 %   smoothed joint prob
 %   all estimated values are in log
 cond_density = conditional_density(residuals, sigma); % done 
-
-    
+if intial_step == true
+cond_density  = exp(ones(size(residuals,1),size(trans_prob,1)));
+end
+disp(cond_density)   
 % hamilton kim approach to smoothed probabilities 
 [marginal, ...
     predicted,...
