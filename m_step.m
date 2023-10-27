@@ -5,15 +5,21 @@ function [trans_prob,...
           residuals, params, x0] = m_step(smth_prob,...
                                       smth_joint_prob,...
                                       residuals_old,...
-                                      delta_yt,zt,x0)
+                                      delta_yt,zt,x0,optimizer)
 %M_STEP Summary of this function goes here
 %   Detailed explanation goes here
 trans_prob = tans_prob_function(smth_prob,smth_joint_prob); % done 
+for i = 1
 [sigma,...
  B_matrix,...
- lamdas,x0] =  sigma_estimate(residuals_old,smth_prob,x0);% done
+ lamdas,x0] =  sigma_estimate(residuals_old,smth_prob,x0,optimizer);% done
 params = wls_estimate(sigma, smth_prob,delta_yt,zt);
 residuals = res_estimate(params,delta_yt,zt);
+residuals_old = residuals;
+disp('sum of squred residuals')
+sum(residuals.^2,1)
 %print not completed
+end 
 end
+
 

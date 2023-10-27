@@ -21,9 +21,12 @@ ll = zeros(obs,1) ;
                                                 transition_prob(regime,:)+...
                                                 flt_prob(index-1,:)  );
             end
+            predicted_prob(t,:) = predicted_prob(t,:)- logsumexp(predicted_prob(t,:));
+
             flt_prob(index,:) = condi_density(t,:) + predicted_prob(t,:);
             ll(t,1)=  logsumexp(flt_prob(index,:));
             flt_prob(index,:) = flt_prob(index,:)- ll(t,1);
+           flt_prob(index,:) = flt_prob(index,:)- logsumexp(flt_prob(index,:));
         end 
     end 
 

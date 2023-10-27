@@ -8,10 +8,21 @@ function [smth_prob,smth_joint_prob,loglikelihood, start_prob] = e_step(residual
 %   smoothed joint prob
 %   all estimated values are in log
 cond_density = conditional_density(residuals, sigma); % done 
-if intial_step == true
-cond_density  = exp(ones(size(residuals,1),size(trans_prob,1)));
+%if intial_step == true
+%cond_density  = exp(ones(size(residuals,1),size(trans_prob,1)));
+%end
+%disp(cond_density)   
+%{
+for t = 1: size(cond_density,1)
+    for regime = 1:(size(trans_prob,1))
+        if cond_density(t,regime)< -12
+            disp('conditiona density is too small')
+            disp(cond_density(t,regime))
+            cond_density(t,regime) = -11;
+        end
+    end
 end
-disp(cond_density)   
+%}
 % hamilton kim approach to smoothed probabilities 
 [marginal, ...
     predicted,...

@@ -1,3 +1,4 @@
+function [x0] = x0_guess(x0)
 itr = 100;
 x0_list = zeros(itr,size(x0,2));
 f_val_list = zeros(itr,1);
@@ -14,6 +15,5 @@ f_val_list(i)= opt_fun2(x0_list(i,:));
 end 
 [f_val,index]= min(f_val_list);
 x0=x0_list(index,:);
+end
 
-
-b

@@ -24,5 +24,9 @@ lamda = zeros(K_var,K_var,regimes);
                                         B_matrix.';
         
     end
+      for regime = 1:regimes
+        sq_sigma = sqrtm(sigma_regimes(:,:, regime));
+       sigma_regimes(:,:, regime) =  sq_sigma* sq_sigma.';
+    end 
 end
 

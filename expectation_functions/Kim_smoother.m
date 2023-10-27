@@ -13,6 +13,12 @@ jnt_prob_t0 = zeros(regimes,regimes,1); % for initial prob
 smth_prob = zeros(obs,regimes);
 start_prob = zeros(1,regimes);
 smth_prob(obs,:) = flt_prob(obs+1,:); % because we have 0 observation 
+disp('this is flterd prob')
+disp(exp(flt_prob))
+disp('-------------------')
+disp('this is predicted prob')
+disp(exp(predicted_prob))
+disp('-------------------')
 for t = obs-1:-1:1
     for regime_j = 1:regimes
         for regime_k = 1:regimes 
@@ -44,14 +50,11 @@ end
     for regime_j = 1:regimes 
         start_prob(1,regime_j)= logsumexp(jnt_prob_t0(regime_j,:,t));
     end 
-    
+    start_prob(1,:) = start_prob(1,:) - logsumexp(start_prob(1,:));
     
  for t = 1:size(smth_prob,1)
-        if sum(exp(smth_prob(t,:))) ==1
-            disp('incorrect smoothed prob. detected!')
-            smth_prob(t,:) = log(exp(smth_prob(t,:))/...
-                                        sum(exp(smth_prob(t,:))));
-        end 
+     smth_prob(t,:) = smth_prob(t,:) - logsumexp(smth_prob(t,:));
+
 end    
     
     
